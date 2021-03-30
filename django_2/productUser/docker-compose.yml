@@ -1,0 +1,50 @@
+version: '3'
+services: 
+  backend1:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - 8001:8000
+    volumes: 
+      - .:/app 
+    command: python manage.py runserver 0.0.0.0:8000
+    # depends_on: 
+    #   - db
+  
+
+  queue:
+      build: 
+        context: .
+        dockerfile: Dockerfile
+      command: 'python productUser/consumer.py'
+      # depends_on: 
+      #   - db
+  # db:
+  #   image: mysql:5.7.22
+  #   restart: always
+  #   environment: 
+  #     MYSQL_USER: root
+  #     MYSQL_PASSWORD: root
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: mydb
+  #   volumes: 
+  #     - .dbdata:/var/lib/mysql
+  #   ports: 
+  #     - 33066:3306
+
+  # db:
+  #   image: postgres
+  #   restart: always    
+  #   environment:
+  #     - POSTGRES_DB=postgres
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=mydb
+
+  
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
